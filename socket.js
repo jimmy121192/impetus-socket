@@ -3,9 +3,9 @@ const app = express();
 const port = process.env.PORT || 8880;
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Request-Method', 'POST, GET, OPTIONS, PUT, DELETE');
-    res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, X-Request-With");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS, PUT, DELETE');
+    res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, X-Request-With");
     next();
   });
 
