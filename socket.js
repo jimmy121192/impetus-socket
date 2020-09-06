@@ -3,9 +3,16 @@ const app = express();
 const port = process.env.PORT || 8880;
 
 app.use(function(req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Request-Method', 'POST, GET, OPTIONS, PUT, DELETE');
-    res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization, X-Request-With");
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+    if (req.method === 'OPTIONS') {
+
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, OPTIONS');
+        res.header('Access-Control-Max-Age', 120);
+        return res.status(200).json({});
+    }
+    
     next();
   });
 
