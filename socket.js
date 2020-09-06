@@ -2,20 +2,16 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8880;
 
-const server = http.createServer(app);
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://impetus.netlify.app:*");
+    res.header('Access-Control-Request-Method', '*');
+    res.header("Access-Control-Allow-Headers", "*");
+    next();
+  });
 
 
-var io = require("socket.io")(server, {
-    handlePreflightRequest: (req, res) => {
-        const headers = {
-            "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Authorization",
-            "Access-Control-Allow-Origin": "https://impetus.netlify.app", //or the specific origin you want to give access to,
-            "Access-Control-Allow-Credentials": true
-        };
-        res.writeHead(200, headers);
-        res.end();
-    }
-});
+
+var io = require("socket.io")(server)
 
     var chatSpace = io.of("/chat")
     chatSpace.on("connection", (socket)=>{
@@ -28,4 +24,11 @@ var io = require("socket.io")(server, {
         chatSpace.to(data.roomName).emit("incoming_msg", data)
     })
 })
-server.listen(port);
+
+const server = app.listen(port, (err)=>{
+    if(err){
+        console.log(err);
+        return false;
+    }
+    console.log(port + " is open")
+});
