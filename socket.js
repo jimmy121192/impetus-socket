@@ -2,6 +2,14 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8880;
 
+const server = app.listen(port, (err)=>{
+    if(err){
+        console.log(err);
+        return false;
+    }
+    console.log(port + " is open")
+});
+
 var io = require("socket.io")(server)
 
     var chatSpace = io.of("/chat")
@@ -15,11 +23,3 @@ var io = require("socket.io")(server)
         chatSpace.to(data.roomName).emit("incoming_msg", data)
     })
 })
-
-const server = app.listen(port, (err)=>{
-    if(err){
-        console.log(err);
-        return false;
-    }
-    console.log(port + " is open")
-});
