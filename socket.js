@@ -2,22 +2,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8880;
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://impetus.netlify.app");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-    if (req.method === 'OPTIONS') {
-
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, OPTIONS');
-        res.header('Access-Control-Max-Age', 120);
-        return res.status(200).json({});
-    }
-    
-    next();
-  });
-
-
-
 var io = require("socket.io")(server)
 
     var chatSpace = io.of("/chat")
